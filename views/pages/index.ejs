@@ -18,9 +18,9 @@
       <div class="row">
         <div class="col-md-12" style="margin: auto">
           <h3><span class="glyphicon glyphicon-info-sign"></span>Now playing:&nbsp;<span data-id="artist"></span>&nbsp;&#8209;&nbsp;&quot;<span data-id="title"></span>&quot;</h3>
-          <a target="_blank" data-id="data_url" href="" border="0"><img width="500px" height="500px" src="images/blank.png" data-id="cover_img" style='border: 1px solid blue'></a>
+          <a target="_blank" data-id="data_url" href="" border="0"><img width="500px" height="500px" src="images/blank.png" data-id="cover_img"></a>
           <form id="music-form">
-            <div class="input-group pull-left" style="width: 150px">
+            <div class="input-group pull-left" style="width: 150px; margin-top: -35px">
               <span class="input-group-btn"><button data-id="love-button" class="btn btn-default">love</button></span>
               <span class="input-group-btn"><button data-id="pause-button" class="btn btn-default">pause</button></span>
               <span class="input-group-btn"><button data-id="next-button" class="btn btn-default">next</button></span>
@@ -35,7 +35,10 @@ var musicApi = window.location.href;
 
 $( "button[data-id='next-button']" ).click(function(event) {
   $.ajax({
-    url: musicApi+"next"
+    url: musicApi+"next",
+    success: function() {
+      loadSong();
+    }
   });
 });
 $( "button[data-id='love-button']" ).click(function(event) {
@@ -56,10 +59,10 @@ var loadSong = function() {
   $.ajax({
     url: musicApi+"current",
     success: function(data) {
-      $("span[data-id=artist").text(data.artist);
-      $("span[data-id=title").text(data.title);
-      $("img[data-id=cover_img").attr("src",data.image);
-      $("a[data-id=data_url").attr("href",data.link);
+      $("span[data-id=artist]").text(data.artist);
+      $("span[data-id=title]").text(data.title);
+      $("img[data-id=cover_img]").attr("src",data.image);
+      $("a[data-id=data_url]").attr("href",data.link);
     }
   });
 }
