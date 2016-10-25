@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8" />
+		<title>Index</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	</head>
+	<body>
+    <div class="container" style="margin: auto">
+      <div class="row">
+        <div class="col-md-12">
+          <h3><span class="glyphicon glyphicon-info-sign"></span> Now playing: <span data-id="artist"></span>, &quot;<span data-id="title"></span>&quot;</h3>
+          <form id="music-form">
+            <div class="input-group">
+              <span class="input-group-btn"><button data-id="love-button" class="btn btn-default">love</button></span>
+              <span class="input-group-btn"><button data-id="pause-button" class="btn btn-default">pause</button></span>
+              <span class="input-group-btn"><button data-id="next-button" class="btn btn-default">next</button></span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+
+var musicApi = window.location.href;
+
+$( "button[data-id='next-button']" ).click(function(event) {
+  $.ajax({
+    url: musicApi+"next"
+  });
+});
+$( "button[data-id='love-button']" ).click(function(event) {
+  $.ajax({
+    url: musicApi+"love"
+  });
+});
+$( "button[data-id='pause-button']" ).click(function(event) {
+  $.ajax({
+    url: musicApi+"pause"
+  });
+});
+
+$( "#music-form" ).submit(function( event ) {
+    event.preventDefault();
+});
+var loadSong = function() {
+  $.ajax({
+    url: musicApi+"current",
+    success: function(data) {
+      $("span[data-id=artist").text(data.artist);
+      $("span[data-id=title").text(data.title);
+    }
+  });
+}
+$(function() {
+  loadSong();
+  window.setInterval(function(){
+    /// call your function here
+    loadSong();
+  }, 5000);
+});
+    </script>
+	</body>
+</html>
