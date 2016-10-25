@@ -53,7 +53,8 @@ app.get('/current', function(req,res) {
     var info_url = lines[3].split("string")[1].trim().replace(/"/g,'');
     var response_object = {
       artist: artist.trim().replace(/"/g,''),
-      title: title.trim().replace(/"/g,'')
+      title: title.trim().replace(/"/g,''),
+      link: info_url
     }
     console.log("response: %o",response_object);
     get_cover(info_url,function(out) {
