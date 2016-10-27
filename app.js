@@ -12,6 +12,7 @@ app.get('/', function (req, res) {
 
 var exec = require('child_process').exec;
 var pithoscmd = '/usr/local/bin/pithosctl';
+var volumecmd = 'amixer -D pulse sset Master 5%'; // needs a + or - on the end
 
 app.get('/love', function(req,res) {
   var cmd = pithoscmd+' -l';
@@ -60,6 +61,25 @@ app.get('/current', function(req,res) {
     get_cover(info_url,function(out) {
       response_object["image"] = out;
       res.json(response_object);
+    });
+  });
+});
+
+app.get('/volume/:direction', function(req,res) {
+  var dir_val = "+";
+  switch(req.params.direction) {
+    case "up":
+      dir_val = "+";
+    break;
+    case "down":
+      dir_val = "-";
+    break;
+  }
+  var cmd = volumecmd+dir_val;
+  var getvolcmd = 'amixer -D pulse sget Master |grep "%" |head -1';
+  exec(cmd, function(error, stdout, stderr) {
+    exec(getvolcmd, function(errorr, stdoutt, stderrr) {
+      res.send(stdoutt);
     });
   });
 });
